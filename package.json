@@ -1,16 +1,16 @@
 {
-  "name": "__package_name__",
+  "name": "typedoc-plugin-require-tags",
   "version": "0.0.0-development",
   "private": true,
   "description": "",
   "keywords": [],
-  "homepage": "https://github.com/RebeccaStevens/template-typescript-node-package#readme",
+  "homepage": "https://github.com/RebeccaStevens/typedoc-plugin-require-tags#readme",
   "bugs": {
-    "url": "https://github.com/RebeccaStevens/template-typescript-node-package/issues"
+    "url": "https://github.com/RebeccaStevens/typedoc-plugin-require-tags/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RebeccaStevens/template-typescript-node-package"
+    "url": "git+https://github.com/RebeccaStevens/typedoc-plugin-require-tags"
   },
   "license": "BSD-3-Clause",
   "author": {
