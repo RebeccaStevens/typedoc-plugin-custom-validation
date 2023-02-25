@@ -1,4 +1,4 @@
-import type { Reflection } from "typedoc";
+import type { Reflection, TypeDocOptionMap } from "typedoc";
 import { Application, ParameterType, ReflectionKind } from "typedoc";
 
 /**
@@ -29,9 +29,7 @@ export function load(app: Readonly<Application>) {
   app.on(Application.EVENT_VALIDATION_RUN, (project) => {
     const requireTagsOptions = app.options.getValue(
       "requireTags"
-    ) as unknown as {
-      byKind: ByKindEntry[];
-    };
+    ) as unknown as TypeDocOptionMap["requireTags"];
 
     let m_kinds = requireTagsOptions.byKind.reduce(
       (prev, cur) => prev | ReflectionKind[cur.kind],
