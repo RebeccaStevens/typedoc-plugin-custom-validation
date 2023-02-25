@@ -1,5 +1,5 @@
-import type { Application, ProjectReflection, Reflection } from "typedoc";
-import { ParameterType, Validator, ReflectionKind } from "typedoc";
+import type { Reflection } from "typedoc";
+import { Application, ParameterType, ReflectionKind } from "typedoc";
 
 /**
  * Extend typedoc's options with the plugin's option using declaration merging.
@@ -26,74 +26,74 @@ export function load(app: Readonly<Application>) {
     type: ParameterType.Object,
   });
 
-  app.validator.on(
-    Validator.EVENT_RUN,
-    (project: Readonly<ProjectReflection>) => {
-      const requireTagsOptions = app.options.getValue(
-        "requireTags"
-      ) as unknown as {
-        byKind: ByKindEntry[];
-      };
+  app.on(Application.EVENT_VALIDATION_RUN, (project) => {
+    const requireTagsOptions = app.options.getValue(
+      "requireTags"
+    ) as unknown as {
+      byKind: ByKindEntry[];
+    };
 
-      let m_kinds = requireTagsOptions.byKind.reduce(
-        (prev, cur) => prev | ReflectionKind[cur.kind],
-        0
-      );
+    let m_kinds = requireTagsOptions.byKind.reduce(
+      (prev, cur) => prev | ReflectionKind[cur.kind],
+      0
+    );
 
-      const reflectionKindReplacements: Array<
-        [oldKind: number, newKind: number]
-      > = [
-        [ReflectionKind.FunctionOrMethod, ReflectionKind.CallSignature],
-        [ReflectionKind.Constructor, ReflectionKind.ConstructorSignature],
-        [
-          ReflectionKind.Accessor,
-          ReflectionKind.GetSignature | ReflectionKind.SetSignature,
-        ],
-      ];
+    const reflectionKindReplacements: Array<
+      [oldKind: number, newKind: number]
+    > = [
+      [ReflectionKind.FunctionOrMethod, ReflectionKind.CallSignature],
+      [ReflectionKind.Constructor, ReflectionKind.ConstructorSignature],
+      [
+        ReflectionKind.Accessor,
+        ReflectionKind.GetSignature | ReflectionKind.SetSignature,
+      ],
+    ];
 
-      for (const [oldKind, newKind] of reflectionKindReplacements) {
-        m_kinds = (m_kinds | newKind) & ~oldKind;
+    for (const [oldKind, newKind] of reflectionKindReplacements) {
+      m_kinds = (m_kinds | newKind) & ~oldKind;
+    }
+
+    const requireTagsByKind = new Map<number, string[]>(
+      requireTagsOptions.byKind.map(
+        ({ kind: kindString, tags }): [number, string[]] => {
+          const kind = ReflectionKind[kindString];
+          const realKind =
+            reflectionKindReplacements.find(
+              ([oldKind]) => (oldKind & kind) !== 0
+            )?.[1] ?? kind;
+          return [realKind, tags];
+        }
+      )
+    );
+
+    const reflections = project.getReflectionsByKind(m_kinds);
+    const seen = new Set<Reflection>();
+
+    for (const reflection of reflections) {
+      if (seen.has(reflection)) {
+        continue;
       }
 
-      const requireTagsByKind = new Map<number, string[]>(
-        requireTagsOptions.byKind.map(
-          ({ kind: kindString, tags }): [number, string[]] => {
-            const kind = ReflectionKind[kindString];
-            const realKind =
-              reflectionKindReplacements.find(
-                ([oldKind]) => (oldKind & kind) !== 0
-              )?.[1] ?? kind;
-            return [realKind, tags];
-          }
-        )
-      );
+      seen.add(reflection);
 
-      const reflections = project.getReflectionsByKind(m_kinds);
-      const seen = new Set<Reflection>();
+      if (!reflection.hasComment()) {
+        app.logger.warn(
+          `${reflection.getFriendlyFullName()} does not have any documentation.`
+        );
+        continue;
+      }
 
-      for (const reflection of reflections) {
-        if (seen.has(reflection)) {
-          continue;
-        }
+      for (const tagName of requireTagsByKind.get(reflection.kind)!) {
+        const tag: `@${string}` = tagName.startsWith("@")
+          ? (tagName as `@${string}`)
+          : `@${tagName}`;
 
-        seen.add(reflection);
-
-        if (!reflection.hasComment()) {
+        if (reflection.comment!.getTags(tag).length === 0) {
           app.logger.warn(
-            `${reflection.getFriendlyFullName()} does not have any documentation.`
+            `${reflection.getFriendlyFullName()} does not have any ${tag} tags.`
           );
-          continue;
-        }
-
-        for (const tagName of requireTagsByKind.get(reflection.kind)!) {
-          const tag = `@${tagName}` as const;
-          if (reflection.comment!.getTags(tag).length === 0) {
-            app.logger.warn(
-              `${reflection.getFriendlyFullName()} does not have any ${tag} tags.`
-            );
-          }
         }
       }
     }
-  );
+  });
 }
