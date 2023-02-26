@@ -1,4 +1,4 @@
-import type { Reflection, TypeDocOptionMap } from "typedoc";
+import type { ProjectReflection, Reflection, TypeDocOptionMap } from "typedoc";
 import { Application, ParameterType, ReflectionKind } from "typedoc";
 
 /**
@@ -26,72 +26,75 @@ export function load(app: Readonly<Application>) {
     type: ParameterType.Object,
   });
 
-  app.on(Application.EVENT_VALIDATION_RUN, (project) => {
-    const requireTagsOptions = app.options.getValue(
-      "requireTags"
-    ) as unknown as TypeDocOptionMap["requireTags"];
+  app.on(
+    Application.EVENT_VALIDATE_PROJECT,
+    (project: Readonly<ProjectReflection>) => {
+      const requireTagsOptions = app.options.getValue(
+        "requireTags"
+      ) as unknown as TypeDocOptionMap["requireTags"];
 
-    let m_kinds = requireTagsOptions.byKind.reduce(
-      (prev, cur) => prev | ReflectionKind[cur.kind],
-      0
-    );
+      let m_kinds = requireTagsOptions.byKind.reduce(
+        (prev, cur) => prev | ReflectionKind[cur.kind],
+        0
+      );
 
-    const reflectionKindReplacements: Array<
-      [oldKind: number, newKind: number]
-    > = [
-      [ReflectionKind.FunctionOrMethod, ReflectionKind.CallSignature],
-      [ReflectionKind.Constructor, ReflectionKind.ConstructorSignature],
-      [
-        ReflectionKind.Accessor,
-        ReflectionKind.GetSignature | ReflectionKind.SetSignature,
-      ],
-    ];
+      const reflectionKindReplacements: Array<
+        [oldKind: number, newKind: number]
+      > = [
+        [ReflectionKind.FunctionOrMethod, ReflectionKind.CallSignature],
+        [ReflectionKind.Constructor, ReflectionKind.ConstructorSignature],
+        [
+          ReflectionKind.Accessor,
+          ReflectionKind.GetSignature | ReflectionKind.SetSignature,
+        ],
+      ];
 
-    for (const [oldKind, newKind] of reflectionKindReplacements) {
-      m_kinds = (m_kinds | newKind) & ~oldKind;
-    }
+      for (const [oldKind, newKind] of reflectionKindReplacements) {
+        m_kinds = (m_kinds | newKind) & ~oldKind;
+      }
 
-    const requireTagsByKind = new Map<number, string[]>(
-      requireTagsOptions.byKind.map(
-        ({ kind: kindString, tags }): [number, string[]] => {
-          const kind = ReflectionKind[kindString];
-          const realKind =
-            reflectionKindReplacements.find(
-              ([oldKind]) => (oldKind & kind) !== 0
-            )?.[1] ?? kind;
-          return [realKind, tags];
+      const requireTagsByKind = new Map<number, string[]>(
+        requireTagsOptions.byKind.map(
+          ({ kind: kindString, tags }): [number, string[]] => {
+            const kind = ReflectionKind[kindString];
+            const realKind =
+              reflectionKindReplacements.find(
+                ([oldKind]) => (oldKind & kind) !== 0
+              )?.[1] ?? kind;
+            return [realKind, tags];
+          }
+        )
+      );
+
+      const reflections = project.getReflectionsByKind(m_kinds);
+      const seen = new Set<Reflection>();
+
+      for (const reflection of reflections) {
+        if (seen.has(reflection)) {
+          continue;
         }
-      )
-    );
 
-    const reflections = project.getReflectionsByKind(m_kinds);
-    const seen = new Set<Reflection>();
+        seen.add(reflection);
 
-    for (const reflection of reflections) {
-      if (seen.has(reflection)) {
-        continue;
-      }
-
-      seen.add(reflection);
-
-      if (!reflection.hasComment()) {
-        app.logger.warn(
-          `${reflection.getFriendlyFullName()} does not have any documentation.`
-        );
-        continue;
-      }
-
-      for (const tagName of requireTagsByKind.get(reflection.kind)!) {
-        const tag: `@${string}` = tagName.startsWith("@")
-          ? (tagName as `@${string}`)
-          : `@${tagName}`;
-
-        if (reflection.comment!.getTags(tag).length === 0) {
+        if (!reflection.hasComment()) {
           app.logger.warn(
-            `${reflection.getFriendlyFullName()} does not have any ${tag} tags.`
+            `${reflection.getFriendlyFullName()} does not have any documentation.`
           );
+          continue;
+        }
+
+        for (const tagName of requireTagsByKind.get(reflection.kind)!) {
+          const tag: `@${string}` = tagName.startsWith("@")
+            ? (tagName as `@${string}`)
+            : `@${tagName}`;
+
+          if (reflection.comment!.getTags(tag).length === 0) {
+            app.logger.warn(
+              `${reflection.getFriendlyFullName()} does not have any ${tag} tags.`
+            );
+          }
         }
       }
     }
-  });
+  );
 }
