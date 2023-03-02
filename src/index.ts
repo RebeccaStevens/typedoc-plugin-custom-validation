@@ -9,6 +9,7 @@ export type ByKindEntry = {
   kinds: keyof typeof ReflectionKind | Array<keyof typeof ReflectionKind>;
   tags?: string | string[];
   summary?: boolean;
+  type?: "all" | "code-only" | "types-only";
 };
 
 export function load(app: Readonly<Application>) {
@@ -45,32 +46,38 @@ export function load(app: Readonly<Application>) {
         m_kinds = (m_kinds | newKind) & ~oldKind;
       }
 
-      type Requirements = { tags: string[]; summary: boolean };
+      type Requirements = {
+        tags: string[];
+        summary: boolean;
+        type: NonNullable<ByKindEntry["type"]>;
+      };
 
       const requirementsByKind = new Map<number, Requirements>(
-        customValidationOptions.byKind.flatMap(({ kinds, tags, summary }) =>
-          (Array.isArray(kinds) ? kinds : [kinds]).map(
-            (kindString): [number, Requirements] => {
-              const kind = ReflectionKind[kindString];
-              const realKind =
-                reflectionKindReplacements.find(
-                  ([oldKind]) => (oldKind & kind) !== 0
-                )?.[1] ?? kind;
+        customValidationOptions.byKind.flatMap(
+          ({ kinds, tags, summary, type }) =>
+            (Array.isArray(kinds) ? kinds : [kinds]).map(
+              (kindString): [number, Requirements] => {
+                const kind = ReflectionKind[kindString];
+                const realKind =
+                  reflectionKindReplacements.find(
+                    ([oldKind]) => (oldKind & kind) !== 0
+                  )?.[1] ?? kind;
 
-              return [
-                realKind,
-                {
-                  tags:
-                    tags === undefined
-                      ? []
-                      : Array.isArray(tags)
-                      ? tags
-                      : [tags],
-                  summary: summary ?? false,
-                },
-              ];
-            }
-          )
+                return [
+                  realKind,
+                  {
+                    tags:
+                      tags === undefined
+                        ? []
+                        : Array.isArray(tags)
+                        ? tags
+                        : [tags],
+                    summary: summary ?? false,
+                    type: type ?? "all",
+                  },
+                ];
+              }
+            )
         )
       );
 
@@ -92,6 +99,18 @@ export function load(app: Readonly<Application>) {
 
         const requirements = requirementsByKind.get(reflection.kind);
         if (requirements !== undefined) {
+          if (requirements.type !== "all") {
+            const isTypeReflection =
+              ((reflection.parent?.kind ?? 0) & ReflectionKind.SomeType) !== 0;
+
+            if (
+              (requirements.type === "code-only" && isTypeReflection) ||
+              (requirements.type === "types-only" && !isTypeReflection)
+            ) {
+              continue;
+            }
+          }
+
           if (
             requirements.summary &&
             reflection.comment!.summary.length === 0
