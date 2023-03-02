@@ -19,7 +19,6 @@ export type ByKindEntry = {
 };
 
 export function load(app: Readonly<Application>) {
-  // @ts-expect-error -- FIXME: ???
   app.options.addDeclaration({
     name: "requireTags",
     help: "The configuration object of the require-tags plugin.",
