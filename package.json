@@ -1,7 +1,6 @@
 {
   "name": "typedoc-plugin-custom-validation",
   "version": "0.0.0-development",
-  "private": true,
   "description": "",
   "keywords": [
     "typedoc-plugin"
