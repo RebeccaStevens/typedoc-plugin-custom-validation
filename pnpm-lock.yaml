@@ -48,7 +48,7 @@ specifiers:
   rollup-plugin-dts: 5.2.0
   semantic-release: 20.1.0
   ts-node: 10.9.1
-  typedoc: ^0.23.25
+  typedoc: 0.23.26
   typescript: 4.9.5
 
 devDependencies:
@@ -99,7 +99,7 @@ devDependencies:
   rollup-plugin-dts: 5.2.0_vi3xdhr63abcxdtwtptol35g5u
   semantic-release: 20.1.0
   ts-node: 10.9.1_5lyanyhwyggrikgtn7dsw3wuei
-  typedoc: 0.23.25_typescript@4.9.5
+  typedoc: 0.23.26_typescript@4.9.5
   typescript: 4.9.5
 
 packages:
@@ -5040,6 +5040,13 @@ packages:
       brace-expansion: 2.0.1
     dev: true
 
+  /minimatch/7.4.2:
+    resolution: {integrity: sha512-xy4q7wou3vUoC9k1xGTXc+awNdGaGVHtFUaey8tiX4H1QRc04DZ/rmDFwNm2EBsuYEhAZ6SgMmYf3InGY6OauA==}
+    engines: {node: '>=10'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: true
+
   /minimist-options/4.1.0:
     resolution: {integrity: sha512-Q4r8ghd80yhO/0j1O3B2BjweX3fiHg9cdOwjJd2J76Q135c+NDxGCqdYKQ1SKBuFfgWbAUzBfvYjPUEeNgqN1A==}
     engines: {node: '>= 6'}
@@ -6764,8 +6771,8 @@ packages:
       is-typedarray: 1.0.0
     dev: true
 
-  /typedoc/0.23.25_typescript@4.9.5:
-    resolution: {integrity: sha512-O1he153qVyoCgJYSvIyY3bPP1wAJTegZfa6tL3APinSZhJOf8CSd8F/21M6ex8pUY/fuY6n0jAsT4fIuMGA6sA==}
+  /typedoc/0.23.26_typescript@4.9.5:
+    resolution: {integrity: sha512-5m4KwR5tOLnk0OtMaRn9IdbeRM32uPemN9kur7YK9wFqx8U0CYrvO9aVq6ysdZSV1c824BTm+BuQl2Ze/k1HtA==}
     engines: {node: '>= 14.14'}
     hasBin: true
     peerDependencies:
@@ -6773,7 +6780,7 @@ packages:
     dependencies:
       lunr: 2.3.9
       marked: 4.2.12
-      minimatch: 6.2.0
+      minimatch: 7.4.2
       shiki: 0.14.1
       typescript: 4.9.5
     dev: true
