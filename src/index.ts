@@ -1,17 +1,9 @@
-import type { ProjectReflection, Reflection, TypeDocOptionMap } from "typedoc";
+import type { ProjectReflection, Reflection } from "typedoc";
 import { Application, ParameterType, ReflectionKind } from "typedoc";
 
-/**
- * Extend typedoc's options with the plugin's option using declaration merging.
- */
-declare module "typedoc" {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions, jsdoc/require-jsdoc
-  export interface TypeDocOptionMap {
-    requireTags: {
-      byKind: ByKindEntry[];
-    };
-  }
-}
+export type RequireTagsOptions = {
+  byKind: ByKindEntry[];
+};
 
 export type ByKindEntry = {
   kind: keyof typeof ReflectionKind;
@@ -30,7 +22,7 @@ export function load(app: Readonly<Application>) {
     (project: Readonly<ProjectReflection>) => {
       const requireTagsOptions = app.options.getValue(
         "requireTags"
-      ) as unknown as TypeDocOptionMap["requireTags"];
+      ) as RequireTagsOptions;
 
       let m_kinds = requireTagsOptions.byKind.reduce(
         (prev, cur) => prev | ReflectionKind[cur.kind],
