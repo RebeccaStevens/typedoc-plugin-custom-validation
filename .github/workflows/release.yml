@@ -49,7 +49,7 @@ jobs:
         run: pnpm run build
 
       - name: Release
-        run: pnpm run semantic-release
+        run: pnpm semantic-release
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
