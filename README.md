@@ -29,3 +29,49 @@ pnpm add -D typedoc-plugin-require-tags
 # Install with yarn
 yarn add -D typedoc-plugin-require-tags
 ```
+
+## Usage
+
+All options are configured in the `customValidation` option.
+
+### `byKind`
+
+This option is for specifying requirements for each kind of node.
+
+Example: Require all functions to have a summary and have an `@example` tag.
+
+```json
+{
+  "plugin": ["typedoc-plugin-require-tags"],
+  "customValidation": {
+    "byKind": [
+      {
+        "kinds": "Function",
+        "summary": true,
+        "tags": ["example"]
+      }
+    ]
+  }
+}
+```
+
+### My Tags Don't Exists?
+
+Due to the way typedoc works, some tags may be move to other nodes than the one they were defined on.
+
+For example, `@param` tags are removed from the `Function` node they are defined on and its content is put onto the corresponding `Parameter` node.
+You can require parameters to be documented with:
+
+```json
+{
+  "plugin": ["typedoc-plugin-require-tags"],
+  "customValidation": {
+    "byKind": [
+      {
+        "kinds": "Parameter",
+        "summary": true
+      }
+    ]
+  }
+}
+```
