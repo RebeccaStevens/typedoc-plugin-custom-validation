@@ -1,18 +1,19 @@
 import type { ProjectReflection, Reflection } from "typedoc";
 import { Application, ParameterType, ReflectionKind } from "typedoc";
 
-export type RequireTagsOptions = {
+export type CustomValidationOptions = {
   byKind: ByKindEntry[];
 };
 
 export type ByKindEntry = {
-  kind: keyof typeof ReflectionKind;
-  tags: string[];
+  kinds: keyof typeof ReflectionKind | Array<keyof typeof ReflectionKind>;
+  tags?: string | string[];
+  summary?: boolean;
 };
 
 export function load(app: Readonly<Application>) {
   app.options.addDeclaration({
-    name: "requireTags",
+    name: "customValidation",
     help: "The configuration object of the require-tags plugin.",
     type: ParameterType.Object,
   });
@@ -20,14 +21,14 @@ export function load(app: Readonly<Application>) {
   app.on(
     Application.EVENT_VALIDATE_PROJECT,
     (project: Readonly<ProjectReflection>) => {
-      const requireTagsOptions = app.options.getValue(
-        "requireTags"
-      ) as RequireTagsOptions;
+      const customValidationOptions = app.options.getValue(
+        "customValidation"
+      ) as CustomValidationOptions;
 
-      let m_kinds = requireTagsOptions.byKind.reduce(
-        (prev, cur) => prev | ReflectionKind[cur.kind],
-        0
-      );
+      let m_kinds = customValidationOptions.byKind
+        .flatMap((by) => by.kinds)
+        .map((kind) => ReflectionKind[kind])
+        .reduce((p, c) => p | c);
 
       const reflectionKindReplacements: Array<
         [oldKind: number, newKind: number]
@@ -44,16 +45,32 @@ export function load(app: Readonly<Application>) {
         m_kinds = (m_kinds | newKind) & ~oldKind;
       }
 
-      const requireTagsByKind = new Map<number, string[]>(
-        requireTagsOptions.byKind.map(
-          ({ kind: kindString, tags }): [number, string[]] => {
-            const kind = ReflectionKind[kindString];
-            const realKind =
-              reflectionKindReplacements.find(
-                ([oldKind]) => (oldKind & kind) !== 0
-              )?.[1] ?? kind;
-            return [realKind, tags];
-          }
+      type Requirements = { tags: string[]; summary: boolean };
+
+      const requirementsByKind = new Map<number, Requirements>(
+        customValidationOptions.byKind.flatMap(({ kinds, tags, summary }) =>
+          (Array.isArray(kinds) ? kinds : [kinds]).map(
+            (kindString): [number, Requirements] => {
+              const kind = ReflectionKind[kindString];
+              const realKind =
+                reflectionKindReplacements.find(
+                  ([oldKind]) => (oldKind & kind) !== 0
+                )?.[1] ?? kind;
+
+              return [
+                realKind,
+                {
+                  tags:
+                    tags === undefined
+                      ? []
+                      : Array.isArray(tags)
+                      ? tags
+                      : [tags],
+                  summary: summary ?? false,
+                },
+              ];
+            }
+          )
         )
       );
 
@@ -64,25 +81,36 @@ export function load(app: Readonly<Application>) {
         if (seen.has(reflection)) {
           continue;
         }
-
         seen.add(reflection);
 
-        if (!reflection.hasComment()) {
+        if (!reflection.hasComment() || reflection.comment!.isEmpty()) {
           app.logger.warn(
             `${reflection.getFriendlyFullName()} does not have any documentation.`
           );
           continue;
         }
 
-        for (const tagName of requireTagsByKind.get(reflection.kind)!) {
-          const tag: `@${string}` = tagName.startsWith("@")
-            ? (tagName as `@${string}`)
-            : `@${tagName}`;
-
-          if (reflection.comment!.getTags(tag).length === 0) {
+        const requirements = requirementsByKind.get(reflection.kind);
+        if (requirements !== undefined) {
+          if (
+            requirements.summary &&
+            reflection.comment!.summary.length === 0
+          ) {
             app.logger.warn(
-              `${reflection.getFriendlyFullName()} does not have any ${tag} tags.`
+              `${reflection.getFriendlyFullName()} does not have a summary.`
             );
+          }
+
+          for (const tagName of requirements.tags) {
+            const tag: `@${string}` = tagName.startsWith("@")
+              ? (tagName as `@${string}`)
+              : `@${tagName}`;
+
+            if (reflection.comment!.getTags(tag).length === 0) {
+              app.logger.warn(
+                `${reflection.getFriendlyFullName()} does not have any ${tag} tags.`
+              );
+            }
           }
         }
       }
