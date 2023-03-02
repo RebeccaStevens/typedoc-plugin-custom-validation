@@ -1,4 +1,119 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable unicorn/no-empty-file */
+import type { ProjectReflection, Reflection } from "typedoc";
+import { Application, ParameterType, ReflectionKind } from "typedoc";
 
-// Write me
+export type CustomValidationOptions = {
+  byKind: ByKindEntry[];
+};
+
+export type ByKindEntry = {
+  kinds: keyof typeof ReflectionKind | Array<keyof typeof ReflectionKind>;
+  tags?: string | string[];
+  summary?: boolean;
+};
+
+export function load(app: Readonly<Application>) {
+  app.options.addDeclaration({
+    name: "customValidation",
+    help: "The configuration object of the require-tags plugin.",
+    type: ParameterType.Object,
+  });
+
+  app.on(
+    Application.EVENT_VALIDATE_PROJECT,
+    (project: Readonly<ProjectReflection>) => {
+      const customValidationOptions = app.options.getValue(
+        "customValidation"
+      ) as CustomValidationOptions;
+
+      let m_kinds = customValidationOptions.byKind
+        .flatMap((by) => by.kinds)
+        .map((kind) => ReflectionKind[kind])
+        .reduce((p, c) => p | c);
+
+      const reflectionKindReplacements: Array<
+        [oldKind: number, newKind: number]
+      > = [
+        [ReflectionKind.FunctionOrMethod, ReflectionKind.CallSignature],
+        [ReflectionKind.Constructor, ReflectionKind.ConstructorSignature],
+        [
+          ReflectionKind.Accessor,
+          ReflectionKind.GetSignature | ReflectionKind.SetSignature,
+        ],
+      ];
+
+      for (const [oldKind, newKind] of reflectionKindReplacements) {
+        m_kinds = (m_kinds | newKind) & ~oldKind;
+      }
+
+      type Requirements = { tags: string[]; summary: boolean };
+
+      const requirementsByKind = new Map<number, Requirements>(
+        customValidationOptions.byKind.flatMap(({ kinds, tags, summary }) =>
+          (Array.isArray(kinds) ? kinds : [kinds]).map(
+            (kindString): [number, Requirements] => {
+              const kind = ReflectionKind[kindString];
+              const realKind =
+                reflectionKindReplacements.find(
+                  ([oldKind]) => (oldKind & kind) !== 0
+                )?.[1] ?? kind;
+
+              return [
+                realKind,
+                {
+                  tags:
+                    tags === undefined
+                      ? []
+                      : Array.isArray(tags)
+                      ? tags
+                      : [tags],
+                  summary: summary ?? false,
+                },
+              ];
+            }
+          )
+        )
+      );
+
+      const reflections = project.getReflectionsByKind(m_kinds);
+      const seen = new Set<Reflection>();
+
+      for (const reflection of reflections) {
+        if (seen.has(reflection)) {
+          continue;
+        }
+        seen.add(reflection);
+
+        if (!reflection.hasComment() || reflection.comment!.isEmpty()) {
+          app.logger.warn(
+            `${reflection.getFriendlyFullName()} does not have any documentation.`
+          );
+          continue;
+        }
+
+        const requirements = requirementsByKind.get(reflection.kind);
+        if (requirements !== undefined) {
+          if (
+            requirements.summary &&
+            reflection.comment!.summary.length === 0
+          ) {
+            app.logger.warn(
+              `${reflection.getFriendlyFullName()} does not have a summary.`
+            );
+          }
+
+          for (const tagName of requirements.tags) {
+            const tag: `@${string}` = tagName.startsWith("@")
+              ? (tagName as `@${string}`)
+              : `@${tagName}`;
+
+            if (reflection.comment!.getTags(tag).length === 0) {
+              app.logger.warn(
+                `${reflection.getFriendlyFullName()} does not have any ${tag} tags.`
+              );
+            }
+          }
+        }
+      }
+    }
+  );
+}

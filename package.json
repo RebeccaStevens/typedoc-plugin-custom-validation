@@ -1,16 +1,18 @@
 {
-  "name": "typedoc-plugin-require-tags",
+  "name": "typedoc-plugin-custom-validation",
   "version": "0.0.0-development",
   "private": true,
   "description": "",
-  "keywords": [],
-  "homepage": "https://github.com/RebeccaStevens/typedoc-plugin-require-tags#readme",
+  "keywords": [
+    "typedoc-plugin"
+  ],
+  "homepage": "https://github.com/RebeccaStevens/typedoc-plugin-custom-validation#readme",
   "bugs": {
-    "url": "https://github.com/RebeccaStevens/typedoc-plugin-require-tags/issues"
+    "url": "https://github.com/RebeccaStevens/typedoc-plugin-custom-validation/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RebeccaStevens/typedoc-plugin-require-tags"
+    "url": "git+https://github.com/RebeccaStevens/typedoc-plugin-custom-validation"
   },
   "license": "BSD-3-Clause",
   "author": {
@@ -98,7 +100,11 @@
     "rollup-plugin-dts": "5.2.0",
     "semantic-release": "20.1.0",
     "ts-node": "10.9.1",
+    "typedoc": "0.23.26",
     "typescript": "4.9.5"
+  },
+  "peerDependencies": {
+    "typedoc": "^0.23.26"
   },
   "packageManager": "pnpm@7.27.0"
 }
