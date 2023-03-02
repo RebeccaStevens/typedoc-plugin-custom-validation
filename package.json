@@ -3,7 +3,9 @@
   "version": "0.0.0-development",
   "private": true,
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "typedoc-plugin"
+  ],
   "homepage": "https://github.com/RebeccaStevens/typedoc-plugin-require-tags#readme",
   "bugs": {
     "url": "https://github.com/RebeccaStevens/typedoc-plugin-require-tags/issues"
