@@ -105,5 +105,5 @@
   "peerDependencies": {
     "typedoc": "^0.23.26"
   },
-  "packageManager": "pnpm@7.27.0"
+  "packageManager": "pnpm@7.29.0"
 }
