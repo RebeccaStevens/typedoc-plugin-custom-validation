@@ -15,7 +15,7 @@ export type ByKindEntry = {
 export function load(app: Readonly<Application>) {
   app.options.addDeclaration({
     name: "customValidation",
-    help: "The configuration object of the require-tags plugin.",
+    help: "The configuration object of the custom-validation plugin.",
     type: ParameterType.Object,
   });
 
