@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+## [1.1.1](https://github.com/RebeccaStevens/typedoc-plugin-custom-validation/compare/v1.1.0...v1.1.1) (2023-03-11)
+
+
+### Bug Fixes
+
+* name of plugin ([4d76396](https://github.com/RebeccaStevens/typedoc-plugin-custom-validation/commit/4d763969f896d140e6b8cb8bb607487ecac11d16))
+
 # [1.1.0](https://github.com/RebeccaStevens/typedoc-plugin-custom-validation/compare/v1.0.0...v1.1.0) (2023-03-06)
 
 
