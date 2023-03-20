@@ -37,7 +37,7 @@ specifiers:
   eslint-plugin-sonarjs: 0.18.0
   eslint-plugin-unicorn: 46.0.0
   husky: 8.0.3
-  knip: 2.0.0-alpha.5
+  knip: 2.0.0-beta.0
   lint-staged: 13.1.2
   markdownlint-cli: 0.33.0
   prettier: 2.8.4
@@ -88,7 +88,7 @@ devDependencies:
   eslint-plugin-sonarjs: 0.18.0_eslint@8.35.0
   eslint-plugin-unicorn: 46.0.0_eslint@8.35.0
   husky: 8.0.3
-  knip: 2.0.0-alpha.5
+  knip: 2.0.0-beta.0
   lint-staged: 13.1.2
   markdownlint-cli: 0.33.0
   prettier: 2.8.4
@@ -4253,8 +4253,8 @@ packages:
     engines: {node: '>= 0.6.0'}
     dev: true
 
-  /jiti/1.17.2:
-    resolution: {integrity: sha512-Xf0nU8+8wuiQpLcqdb2HRyHqYwGk2Pd+F7kstyp20ZuqTyCmB9dqpX2NxaxFc1kovraa2bG6c1RL3W7XfapiZg==}
+  /jiti/1.18.2:
+    resolution: {integrity: sha512-QAdOptna2NYiSSpv0O/BwoHBSmz4YhpzJHyi+fnMRTXFjp7B8i/YG5Z8IfusxB1ufjcD2Sre1F3R+nX3fvy7gg==}
     hasBin: true
     dev: true
 
@@ -4360,8 +4360,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /knip/2.0.0-alpha.5:
-    resolution: {integrity: sha512-v9jWJcFZsWErVYoEjLtcwU6nTumVM3hhB+GEWiyCimNuhG2Zw5uLmn9NV05Q0OQTlsCtEdmXI3FbC1mBoNsv2g==}
+  /knip/2.0.0-beta.0:
+    resolution: {integrity: sha512-2x8qWwUAj5TI1ZbIc2LfRMHed5mgmyji7gb/YPArUYheRkttoYnZPmlUsjxPzqa9pPwJh/w2bWpf9kGNAj6uwQ==}
     engines: {node: '>=16.17.0 <17 || >=18.6.0'}
     hasBin: true
     dependencies:
@@ -4372,15 +4372,14 @@ packages:
       easy-table: 1.2.0
       fast-glob: 3.2.12
       globby: 13.1.3
-      jiti: 1.17.2
+      jiti: 1.18.2
       js-yaml: 4.1.0
       micromatch: 4.0.5
       minimist: 1.2.8
-      nano-memoize: 2.0.0
       pretty-ms: 8.0.0
       strip-json-comments: 5.0.0
       summary: 2.1.0
-      typescript: 5.0.1-rc
+      typescript: 5.0.2
       zod: 3.20.6
     dev: true
 
@@ -4891,10 +4890,6 @@ packages:
 
   /mute-stream/0.0.8:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
-    dev: true
-
-  /nano-memoize/2.0.0:
-    resolution: {integrity: sha512-/m8k0gPWeZUYW8yQDchzxAkHt9Sw5DT8h+6QtRGu23OUj3d7qCXfO9+RU2O/zptPM1+fJCi4Tku4XoYN8s7AYQ==}
     dev: true
 
   /natural-compare-lite/1.4.0:
@@ -6522,9 +6517,9 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript/5.0.1-rc:
-    resolution: {integrity: sha512-zh75jY8gPo/y7fpmlTVN2bb2MigoLx4hGk+Cla9pY6lgSTvzJrmQQrRt5S80VTsEt6biWPZJgLK2nm6f0Ya+mA==}
-    engines: {node: '>=4.2.0'}
+  /typescript/5.0.2:
+    resolution: {integrity: sha512-wVORMBGO/FAs/++blGNeAVdbNKtIh1rbBL2EyQ1+J9lClJ93KiiKe8PmFIVdXhHcyv44SL9oglmfeSsndo0jRw==}
+    engines: {node: '>=12.20'}
     hasBin: true
     dev: true
 
