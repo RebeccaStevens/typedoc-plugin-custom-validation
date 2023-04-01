@@ -42,7 +42,7 @@ specifiers:
   markdownlint-cli: 0.33.0
   prettier: 2.8.7
   prettier-plugin-packagejson: 2.4.3
-  rimraf: 4.4.0
+  rimraf: 4.4.1
   rollup: 3.20.0
   rollup-plugin-auto-external: 2.0.0
   rollup-plugin-dts: 5.3.0
@@ -93,7 +93,7 @@ devDependencies:
   markdownlint-cli: 0.33.0
   prettier: 2.8.7
   prettier-plugin-packagejson: 2.4.3_prettier@2.8.7
-  rimraf: 4.4.0
+  rimraf: 4.4.1
   rollup: 3.20.0
   rollup-plugin-auto-external: 2.0.0_rollup@3.20.0
   rollup-plugin-dts: 5.3.0_hy5v2w3xaqxocfx6d2ai5z6ari
@@ -5644,8 +5644,8 @@ packages:
       glob: 7.2.3
     dev: true
 
-  /rimraf/4.4.0:
-    resolution: {integrity: sha512-X36S+qpCUR0HjXlkDe4NAOhS//aHH0Z+h8Ckf2auGJk3PTnx5rLmrHkwNdbVQuCSUhOyFrlRvFEllZOYE+yZGQ==}
+  /rimraf/4.4.1:
+    resolution: {integrity: sha512-Gk8NlF062+T9CqNGn6h4tls3k6T1+/nXdOcSZVikNVtlRdYpA7wRJJMoXmuvOnLW844rPjdQ7JgXCYM6PPC/og==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
