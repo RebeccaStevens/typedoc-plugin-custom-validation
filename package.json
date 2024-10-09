@@ -101,7 +101,7 @@
     "semantic-release": "21.0.1",
     "ts-node": "10.9.1",
     "typedoc": "0.23.28",
-    "typescript": "5.0.4"
+    "typescript": "5.6.3"
   },
   "peerDependencies": {
     "typedoc": "^0.23.26"
