@@ -75,7 +75,6 @@ export function load(app: Readonly<Application>): void {
       seen.add(reflection);
 
       if (!reflection.hasComment() || reflection.comment!.isEmpty()) {
-        app.logger.warn(`${reflection.getFriendlyFullName()} does not have any documentation.`);
         continue;
       }
 
