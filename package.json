@@ -43,8 +43,6 @@
   "scripts": {
     "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "cz": "git-cz",
-    "docs": "typedoc",
-    "docs:serve": "npx --yes http-server docs/generated",
     "lint": "eslint && pnpm run lint:md && pnpm run lint:spelling && pnpm run lint:knip && pnpm run lint:packages",
     "lint-fix": "eslint --fix && pnpm run lint:md-fix && pnpm run lint:packages-fix",
     "lint:js": "eslint \"**/*.?([cm])[jt]s?(x)\"",
@@ -129,7 +127,6 @@
     "semantic-release": "24.2.0",
     "tsc-files": "1.1.4",
     "typedoc": "0.26.11",
-    "typedoc-plugin-custom-validation": "link:.",
     "typescript": "5.6.3",
     "vite-tsconfig-paths": "5.1.2",
     "vitest": "2.1.4",
