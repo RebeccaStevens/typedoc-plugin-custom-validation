@@ -4,15 +4,18 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "alwaysStrict": true,
+    "declaration": true,
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": false,
+    "isolatedDeclarations": true,
     "lib": ["ESNext"],
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "newLine": "LF",
     "noEmitOnError": true,
+    "noErrorTruncation": true,
     "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
@@ -21,10 +24,11 @@
     "preserveConstEnums": true,
     "pretty": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "sourceMap": false,
     "strict": true,
-    "target": "ES2022",
-    "useUnknownInCatchVariables": true
-  },
-  "exclude": ["dist/"]
+    "target": "ESNext",
+    "useUnknownInCatchVariables": true,
+    "types": ["vitest/importMeta"]
+  }
 }

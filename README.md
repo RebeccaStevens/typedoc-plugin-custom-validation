@@ -59,8 +59,8 @@ Example: Require all functions to have a summary and have an `@example` tag.
 
 Due to the way typedoc works, some tags may be move to other nodes than the one they were defined on.
 
-For example, `@param` tags are removed from the `Function` node they are defined on and its content is put onto the corresponding `Parameter` node.
-You can require parameters to be documented with:
+For example, `@param` tags are removed from the `Function` node they are defined on and its content is put onto the
+corresponding `Parameter` node. You can require parameters to be documented with:
 
 ```json
 {
