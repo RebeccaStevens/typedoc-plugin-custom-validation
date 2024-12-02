@@ -25,7 +25,7 @@ importers:
         version: 1.2.3(eslint@9.14.0(jiti@2.4.0))
       '@rebeccastevens/eslint-config':
         specifier: 3.3.4
-        version: 3.3.4(ht3r6ugao35jrtzl5bcfwbf3li)
+        version: 3.3.4(hbxnh537u4kaz42vfldgp4ivdy)
       '@rollup/plugin-replace':
         specifier: 6.0.1
         version: 6.0.1(rollup@4.28.0)
@@ -51,8 +51,8 @@ importers:
         specifier: 14.0.1
         version: 14.0.1(semantic-release@24.2.0(typescript@5.7.2))
       '@stylistic/eslint-plugin':
-        specifier: 2.10.1
-        version: 2.10.1(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2)
+        specifier: 2.11.0
+        version: 2.11.0(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2)
       '@types/node':
         specifier: 22.10.1
         version: 22.10.1
@@ -1808,8 +1808,8 @@ packages:
     engines: {node: '>=8.10'}
     hasBin: true
 
-  '@stylistic/eslint-plugin@2.10.1':
-    resolution: {integrity: sha512-U+4yzNXElTf9q0kEfnloI9XbOyD4cnEQCxjUI94q0+W++0GAEQvJ/slwEj9lwjDHfGADRSr+Tco/z0XJvmDfCQ==}
+  '@stylistic/eslint-plugin@2.11.0':
+    resolution: {integrity: sha512-PNRHbydNG5EH8NK4c+izdJlxajIR6GxcUhzsYNRsn6Myep4dsZt0qFCz3rCPnkvgO5FYibDcMqgNHUT+zvjYZw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=8.40.0'
@@ -6822,7 +6822,7 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@rebeccastevens/eslint-config@3.3.4(ht3r6ugao35jrtzl5bcfwbf3li)':
+  '@rebeccastevens/eslint-config@3.3.4(hbxnh537u4kaz42vfldgp4ivdy)':
     dependencies:
       '@antfu/install-pkg': 0.5.0
       '@clack/prompts': 0.8.2
@@ -6830,7 +6830,7 @@ snapshots:
       globals: 15.13.0
       local-pkg: 0.5.1
     optionalDependencies:
-      '@stylistic/eslint-plugin': 2.10.1(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2)
+      '@stylistic/eslint-plugin': 2.11.0(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2)
       '@typescript-eslint/eslint-plugin': 8.14.0(@typescript-eslint/parser@8.14.0(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2))(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2)
       '@typescript-eslint/parser': 8.14.0(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2)
       '@typescript-eslint/utils': 8.14.0(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2)
@@ -7064,7 +7064,7 @@ snapshots:
       ignore: 5.3.2
       p-map: 4.0.0
 
-  '@stylistic/eslint-plugin@2.10.1(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2)':
+  '@stylistic/eslint-plugin@2.11.0(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2)':
     dependencies:
       '@typescript-eslint/utils': 8.14.0(eslint@9.14.0(jiti@2.4.0))(typescript@5.7.2)
       eslint: 9.14.0(jiti@2.4.0)
