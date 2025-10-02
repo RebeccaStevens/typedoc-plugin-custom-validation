@@ -25,7 +25,7 @@ importers:
         version: 1.2.4(eslint@9.36.0(jiti@2.4.2))
       '@rebeccastevens/eslint-config':
         specifier: 3.5.1
-        version: 3.5.1(b88b465c8bb4e6d567c3de42386c5085)
+        version: 3.5.1(a940a7264b93a5314df34f1a76020894)
       '@rollup/plugin-replace':
         specifier: 6.0.2
         version: 6.0.2(rollup@4.29.1)
@@ -135,8 +135,8 @@ importers:
         specifier: 3.0.1
         version: 3.0.1(eslint@9.36.0(jiti@2.4.2))
       eslint-plugin-unicorn:
-        specifier: 60.0.0
-        version: 60.0.0(eslint@9.36.0(jiti@2.4.2))
+        specifier: 61.0.2
+        version: 61.0.2(eslint@9.36.0(jiti@2.4.2))
       eslint-plugin-yml:
         specifier: 1.16.0
         version: 1.16.0(eslint@9.36.0(jiti@2.4.2))
@@ -2916,8 +2916,8 @@ packages:
     peerDependencies:
       eslint: ^8.0.0 || ^9.0.0
 
-  eslint-plugin-unicorn@60.0.0:
-    resolution: {integrity: sha512-QUzTefvP8stfSXsqKQ+vBQSEsXIlAiCduS/V1Em+FKgL9c21U/IIm20/e3MFy1jyCf14tHAhqC1sX8OTy6VUCg==}
+  eslint-plugin-unicorn@61.0.2:
+    resolution: {integrity: sha512-zLihukvneYT7f74GNbVJXfWIiNQmkc/a9vYBTE4qPkQZswolWNdu+Wsp9sIXno1JOzdn6OUwLPd19ekXVkahRA==}
     engines: {node: ^20.10.0 || >=21.0.0}
     peerDependencies:
       eslint: '>=9.29.0'
@@ -6763,7 +6763,7 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@rebeccastevens/eslint-config@3.5.1(b88b465c8bb4e6d567c3de42386c5085)':
+  '@rebeccastevens/eslint-config@3.5.1(a940a7264b93a5314df34f1a76020894)':
     dependencies:
       '@antfu/install-pkg': 0.5.0
       '@clack/prompts': 0.8.2
@@ -6796,7 +6796,7 @@ snapshots:
       eslint-plugin-promise: 7.2.1(eslint@9.36.0(jiti@2.4.2))
       eslint-plugin-regexp: 2.7.0(eslint@9.36.0(jiti@2.4.2))
       eslint-plugin-sonarjs: 3.0.1(eslint@9.36.0(jiti@2.4.2))
-      eslint-plugin-unicorn: 60.0.0(eslint@9.36.0(jiti@2.4.2))
+      eslint-plugin-unicorn: 61.0.2(eslint@9.36.0(jiti@2.4.2))
       eslint-plugin-yml: 1.16.0(eslint@9.36.0(jiti@2.4.2))
       jsonc-eslint-parser: 2.4.0
       prettier: 3.4.2
@@ -8472,7 +8472,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-unicorn@60.0.0(eslint@9.36.0(jiti@2.4.2)):
+  eslint-plugin-unicorn@61.0.2(eslint@9.36.0(jiti@2.4.2)):
     dependencies:
       '@babel/helper-validator-identifier': 7.27.1
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.36.0(jiti@2.4.2))
